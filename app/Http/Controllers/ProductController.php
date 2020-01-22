@@ -10,7 +10,7 @@ class ProductController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth')->except('index');
+        // $this->middleware('auth')->except('index');
     }
     /**
      * Display a listing of the resource.
@@ -21,7 +21,9 @@ class ProductController extends Controller
     {
         // $allProducts = Product::all();
         $allProducts = Product::get();
-        
+
+
+
 
         return view('products.index', ['products'=> $allProducts]);
     }
@@ -44,14 +46,14 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         //add validation
 
         //store in database
             $product = new Product();
-            $product->name = $request->input('name'); 
-            $product->price = $request->input('price'); 
-            $product->description = $request->input('description'); 
+            $product->name = $request->input('name');
+            $product->price = $request->input('price');
+            $product->description = $request->input('description');
 
             $product->save();
 
