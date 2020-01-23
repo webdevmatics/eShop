@@ -15,6 +15,7 @@
                     <th>Name</th>
                     <th>Price</th>
                     <th>Description</th>
+                    <th>Image</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -25,6 +26,10 @@
                         <td scope="row"> {{$product->name}} </td>
                         <td> {{$product->price}} </td>
                         <td> {{$product->description}} </td>
+
+                        <td>
+                            <img width="300" height="200" src="{{asset('storage/'. $product->cover_img)}}" alt="Product Image">
+                        </td>
 
                         <td>
 

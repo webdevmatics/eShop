@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -46,14 +47,27 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-
         //add validation
+
+        $request->validate([
+            'name'=>'required',
+            'price'=>'required',
+            'cover_img'=>'required|image'
+        ]);
 
         //store in database
             $product = new Product();
             $product->name = $request->input('name');
             $product->price = $request->input('price');
             $product->description = $request->input('description');
+
+            // check if file is present
+            if($request->has('cover_img')) {
+                //store file in disk
+                $filePath = $request->file('cover_img')->store('products');
+                //saving file in database
+                $product->cover_img = $filePath;
+            }
 
             $product->save();
 
@@ -95,10 +109,30 @@ class ProductController extends Controller
     {
         //add validation
 
+        $request->validate([
+            'name' => 'required',
+            'price' => 'required',
+            'cover_img' => 'required|image'
+        ]);
+
         //store in database
         $product->name = $request->input('name');
         $product->price = $request->input('price');
         $product->description = $request->input('description');
+
+
+        // check if file is present
+        if ($request->has('cover_img')) {
+
+            Storage::delete($product->cover_img); // delete old files
+
+            //store file in disk
+            $filePath = $request->file('cover_img')->store('products');
+            //saving file in database
+            $product->cover_img = $filePath;
+
+        }
+
 
         $product->save();
 
@@ -116,6 +150,9 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
+
+        Storage::delete($product->cover_img); // delete old files
+
         return redirect()->route('products.index');
 
     }
