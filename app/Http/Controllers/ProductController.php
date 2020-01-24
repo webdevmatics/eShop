@@ -23,9 +23,6 @@ class ProductController extends Controller
         // $allProducts = Product::all();
         $allProducts = Product::get();
 
-
-
-
         return view('products.index', ['products'=> $allProducts]);
     }
 
@@ -84,7 +81,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+
     }
 
     /**
