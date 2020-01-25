@@ -103,7 +103,7 @@ class AddressController extends Controller
             'full_address' => 'required'
         ]);
 
-        auth()->user()->address()->update($request->all());
+        $address->update($request->all());
 
         return redirect()->route('address.index');
     }

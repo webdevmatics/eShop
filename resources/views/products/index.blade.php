@@ -14,7 +14,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Price</th>
-                    <th>Description</th>
+                    {{-- <th>Description</th> --}}
                     <th>Image</th>
                     <th>Action</th>
                 </tr>
@@ -25,13 +25,15 @@
                     <tr>
                         <td scope="row"> {{$product->name}} </td>
                         <td> {{$product->price}} </td>
-                        <td> {{$product->description}} </td>
+                        {{-- <td> {{$product->description}} </td> --}}
 
                         <td>
                             <img width="300" height="200" src="{{asset('storage/'. $product->cover_img)}}" alt="Product Image">
                         </td>
 
                         <td>
+
+                            <a class="btn btn-primary btn-sm" href="{{route('products.show', $product->id)}}">show</a>
 
                             <a class="btn btn-primary btn-sm" href="{{route('products.edit', $product->id)}}">edit</a>
 

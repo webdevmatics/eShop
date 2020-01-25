@@ -82,6 +82,8 @@ class ProductController extends Controller
     public function show(Product $product)
     {
 
+        return view('products.show', compact('product'));
+
     }
 
     /**
@@ -153,4 +155,18 @@ class ProductController extends Controller
         return redirect()->route('products.index');
 
     }
+
+    public function addToCart($productId)
+    {
+        $product = Product::find($productId);
+
+        $cart = new addToCart();
+        $cart->product_name = $product->name;
+        $cart->price = $product->price;
+        $cart->user_id = auth()->user()->id;
+
+        $cart->save();
+
+    }
+
 }
