@@ -160,13 +160,54 @@ class ProductController extends Controller
     {
         $product = Product::find($productId);
 
-        $cart = new addToCart();
-        $cart->product_name = $product->name;
-        $cart->price = $product->price;
-        $cart->user_id = auth()->user()->id;
+        $allCartItems = [];
 
-        $cart->save();
+        $newItemToAdd =  [
+                    'name' => $product->name,
+                    'price' => $product->price,
+                    'qty' => '1'
+        ];
+
+        if(session()->has('cartItems')) {
+            $allCartItems = session()->get('cartItems');
+        }
+
+        $allCartItems[$productId] =  $newItemToAdd;
+
+        session()->put('cartItems', $allCartItems);
+
+        return back()->withMessage("Item has been added to cart");
 
     }
+
+    public function viewCart()
+    {
+        $allItems = session('cartItems') ?? [];
+
+        // if(isset(session('cartItems'))) {
+        //     $allItems  = session('cartItems')
+        // }else {
+        //     $allItems = [];
+        // }
+
+        return view('cart', compact('allItems'));
+    }
+
+    public function deleteCart($productId)
+    {
+        $existingCartItems = session('cartItems');
+
+        if(isset($existingCartItems[$productId])) {
+
+            //delete that
+            unset($existingCartItems[$productId]);
+
+            session()->put('cartItems', $existingCartItems);
+        }
+
+        return back();
+    }
+
+
 
 }

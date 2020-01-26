@@ -16,6 +16,8 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
@@ -38,6 +40,14 @@
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link m-0 p-0" href="{{ route('cart.view') }}">
+                                    <i class="fas fa-cart-plus text-danger fa-2x"></i>
+                                    Cart
+                                    <span class="badge badge-success">3</span>
+                                </a>
+                            </li>
+
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
@@ -72,7 +82,14 @@
             </div>
         </nav>
 
-        <main class="py-4">
+            @if (session('message'))
+                <div class="alert alert-success text-center" role="alert">
+                    {{session('message')}}
+                </div>
+            @endif
+
+
+        <main class="py-4 container">
             @yield('content')
         </main>
     </div>
