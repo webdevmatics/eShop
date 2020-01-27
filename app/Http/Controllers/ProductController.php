@@ -11,7 +11,7 @@ class ProductController extends Controller
 
     public function __construct()
     {
-        // $this->middleware('auth')->except('index');
+        $this->middleware('auth')->except('index');
     }
     /**
      * Display a listing of the resource.
@@ -172,7 +172,13 @@ class ProductController extends Controller
             $allCartItems = session()->get('cartItems');
         }
 
-        $allCartItems[$productId] =  $newItemToAdd;
+        //product already in cart
+        if (isset($allCartItems[$productId])) {
+            $allCartItems[$productId]['qty'] = $allCartItems[$productId]['qty'] + 1 ;
+            $allCartItems[$productId]['price'] = $product->price * $allCartItems[$productId]['qty'];
+        }else {
+            $allCartItems[$productId] =  $newItemToAdd;
+        }
 
         session()->put('cartItems', $allCartItems);
 
@@ -180,8 +186,37 @@ class ProductController extends Controller
 
     }
 
+    public function reduceQuantity($productId)
+    {
+        $product = Product::find($productId);
+
+        $allCartItems = [];
+
+        if (session()->has('cartItems')) {
+            $allCartItems = session()->get('cartItems');
+        }
+
+        //product already in cart
+        if (empty($allCartItems[$productId])) {
+            return back()->withMessage('No item to remove');
+        }
+
+        $qty = $allCartItems[$productId]['qty'];
+
+        if($qty > 1) {
+            $allCartItems[$productId]['qty']--;
+            $allCartItems[$productId]['price'] = $product->price * $allCartItems[$productId]['qty'];
+        }
+
+        session()->put('cartItems', $allCartItems);
+
+        return back()->withMessage("Item has been removed from cart");
+
+    }
+
     public function viewCart()
     {
+        // session()->remove('cartItems');
         $allItems = session('cartItems') ?? [];
 
         // if(isset(session('cartItems'))) {
@@ -208,6 +243,9 @@ class ProductController extends Controller
         return back();
     }
 
+    // public function updateCart($productId)
+    // {
 
+    // }
 
 }

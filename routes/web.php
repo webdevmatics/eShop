@@ -9,6 +9,7 @@ Route::resource('products', 'ProductController')->middleware('auth');
 Route::resource('address', 'AddressController')->middleware('auth');
 // Route::resource('cart', 'AddressController')->middleware('auth');
 Route::get('add-to-cart/{product}', 'ProductController@addToCart')->name('cart');
+Route::get('remove-cart-item/{product}', 'ProductController@reduceQuantity')->name('cart.reduce');
 Route::get('view-cart', 'ProductController@viewCart')->name('cart.view');
 Route::get('delete-cart/{productId}', 'ProductController@deleteCart')->name('cart.delete');
 

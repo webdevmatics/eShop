@@ -20,12 +20,12 @@
                 <td scope="row">{{ $item['name'] }}</td>
                 <td>{{ $item['price'] }}</td>
                 <td>
-                    <a class="btn btn-danger btn-sm" href="">
+                    <a class="btn btn-danger btn-sm" href="{{ route('cart.reduce', $productId) }}">
                         <i class="fas fa-minus"></i>
                     </a>
 
                         {{ $item['qty'] }}
-                    <a class="btn btn-success btn-sm" href="">
+                    <a class="btn btn-success btn-sm" href="{{ route('cart', $productId) }}">
                         <i class="fas fa-plus"></i>
                     </a>
                 </td>
