@@ -61,8 +61,15 @@ class AddressController extends Controller
         // second way
         auth()->user()->address()->create($request->all());
 
-        //redirection
-        return redirect()->route('address.index');
+
+        if(request('checkout')=='1') {
+            return redirect()->route('cart.checkout');
+
+        }else {
+            //redirection
+            return redirect()->route('address.index');
+        }
+
     }
 
     /**
