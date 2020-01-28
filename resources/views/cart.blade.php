@@ -54,6 +54,6 @@
 
     <div class="row">
 
-        <a href=""  class="btn btn-success">Proceed to checkout</a>
+        <a href="{{route('cart.checkout')}}"  class="btn btn-success">Proceed to checkout</a>
     </div>
 @endsection
