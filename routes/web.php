@@ -18,3 +18,4 @@ Route::get('admin', function () {
     return view('admin.dashboard');
 })->name('admin')->middleware('auth');
 
+

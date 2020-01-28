@@ -45,4 +45,15 @@
         </tbody>
     </table>
 
+
+    <div class="row">
+
+    <h4>Total Price: $ {{ \App\Cart::totalPrice() }}</h4>
+
+    </div>
+
+    <div class="row">
+
+        <a href=""  class="btn btn-success">Proceed to checkout</a>
+    </div>
 @endsection

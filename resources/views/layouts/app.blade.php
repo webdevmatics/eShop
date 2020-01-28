@@ -44,7 +44,7 @@
                                 <a class="nav-link m-0 p-0" href="{{ route('cart.view') }}">
                                     <i class="fas fa-cart-plus text-danger fa-2x"></i>
                                     Cart
-                                    <span class="badge badge-success">3</span>
+                                    <span class="badge badge-success">{{ App\Cart::totalItems() }}</span>
                                 </a>
                             </li>
 
