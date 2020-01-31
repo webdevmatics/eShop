@@ -1,4 +1,8 @@
 
+    <div class="form-group">
+        <label for="">Full Name</label>
+        <input type="text" name="fullname" id="" class="form-control">
+    </div>
 
     <div class="form-group">
         <label for="">State</label>

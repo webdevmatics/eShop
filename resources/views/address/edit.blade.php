@@ -20,6 +20,11 @@
         @method('put')
 
         <div class="form-group">
+            <label for="">Full Name</label>
+            <input type="text" name="fullname" id="" class="form-control" value="{{ $address->fullname }}">
+        </div>
+
+        <div class="form-group">
             <label for="">State</label>
             <input type="text" name="state" id="" class="form-control" value="{{ $address->state }}">
         </div>
