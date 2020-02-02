@@ -16,6 +16,9 @@ Route::get('delete-cart/{productId}', 'ProductController@deleteCart')->name('car
 
 Route::get('cart/checkout', 'CartController@checkout')->name('cart.checkout');
 
+Route::resource('orders', 'OrderController')->middleware('auth');
+
+
 
 Route::get('admin', function () {
     return view('admin.dashboard');

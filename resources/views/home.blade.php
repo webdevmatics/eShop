@@ -11,7 +11,7 @@
                 if(!empty($item->cover_img)) {
                     $imagePath = asset('storage/'.$item->cover_img);
                 }else {
-                    $imagePath = asset('default.jpg');
+                    $imagePath = asset('storage/products/default.jpg');
                 }
 
                 @endphp
