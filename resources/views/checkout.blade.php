@@ -8,8 +8,10 @@
 <h3>Delivery Information</h3>
 
 
-<form action="/order" method="post">
+<form action="{{route('orders.store')}}" method="post">
     @csrf
+
+    @include('_errors')
 
     <div class="form-group">
         <label for="">Full Name</label>
@@ -24,6 +26,11 @@
     <div class="form-group">
         <label for="">City</label>
         <input type="text" name="shipping_city" id="" class="form-control">
+    </div>
+
+    <div class="form-group">
+        <label for="">Zip</label>
+        <input type="number" name="shipping_zipcode" id="" class="form-control">
     </div>
 
     <div class="form-group">
