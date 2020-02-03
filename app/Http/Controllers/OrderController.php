@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Order;
+use App\Mail\OrderCompleted;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -91,13 +93,22 @@ class OrderController extends Controller
             $orderItem->save();
         }
 
+        //empty the cart
+        session()->remove('cartItems');
 
 
-        dd('order created', $order);
-        return "order created";
+        //send mail to customer
+
+        Mail::to(auth()->user()->email)->send(new OrderCompleted);
 
 
+        // return redirect()->route('order.completed');
+        return redirect('/order-completed');
+    }
 
+    public function thankyou()
+    {
+        return view('order-completed');
     }
 
     /**
