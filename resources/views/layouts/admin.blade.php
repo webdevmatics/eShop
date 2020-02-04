@@ -71,6 +71,13 @@
                     </a>
                 </li>
 
+                <li class="nav-item">
+                <a class="nav-link" href="{{route('orders.index')}}">
+                    <span data-feather="users"></span>
+                    Orders
+                    </a>
+                </li>
+
                 </ul>
 
             </div>

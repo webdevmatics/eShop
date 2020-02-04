@@ -17,7 +17,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $orders = Order::get();
+        return view('orders.index', compact('orders'));
     }
 
     /**
@@ -131,7 +132,9 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        //
+        $statusOptions = ['processing', 'pending', 'completed', 'decline'];
+
+        return view('orders.edit',compact('order','statusOptions'));
     }
 
     /**
@@ -143,7 +146,16 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        //
+
+        $order->status = $request->input('status');
+        $order->is_paid = $request->input('is_paid');
+        $order->notes = $request->input('notes');
+        $order->save();
+
+
+        return redirect()->route('orders.index');
+
+
     }
 
     /**
