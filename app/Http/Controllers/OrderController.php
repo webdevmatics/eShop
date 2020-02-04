@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Order;
+use App\OrderItem;
 use App\Mail\OrderCompleted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
