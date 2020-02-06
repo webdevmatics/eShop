@@ -14,6 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Model' => 'App\Policies\ModelPolicy',
+        'App\Address' => 'App\Policies\AddressPolicy',
     ];
 
     /**
@@ -25,6 +26,28 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+
+        Gate::define('update-address', function($user, $address){
+
+            if($user->id != $address->user_id) {
+                return false;
+            }else{
+                return true;
+            }
+
+        });
+
+        Gate::define('isAdmin', function($user){
+            if($user->id != 1) {
+                return false;
+            }
+
+            return true;
+
+        });
+
+
+
+
     }
 }

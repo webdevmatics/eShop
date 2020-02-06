@@ -17,7 +17,15 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::get();
+        if(\Gate::denies('isAdmin')) {
+            dd('you are not admin');
+        }
+        // $orders = Order::get();
+
+
+        $orders = Order::with(['user'])->get();
+        // $orders = Order::get()->load('user');
+        // $orders = Order::get()->load('user');
         return view('orders.index', compact('orders'));
     }
 
@@ -121,7 +129,10 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
+
+        // dd($order->items);
+        // OrderItem::where('order_id', $order->id)->get();
+        return view('orders.show', compact('order'));
     }
 
     /**

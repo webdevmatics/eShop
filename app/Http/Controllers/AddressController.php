@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Address;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class AddressController extends Controller
 {
@@ -91,6 +92,12 @@ class AddressController extends Controller
      */
     public function edit(Address $address)
     {
+        //authorization check : check if user id of logged in user is equals to user_id in address table
+        if (Gate::allow('update-address', $address)) {
+
+            return redirect()->route('address.index')->withError('You are unathorized');
+        }
+
         return view('address.edit', compact('address'));
     }
 
@@ -103,6 +110,21 @@ class AddressController extends Controller
      */
     public function update(Request $request, Address $address)
     {
+        // $loggedInUserId = auth()->user()->id;
+
+        // if ($loggedInUserId != $address->user_id) {
+
+        //     return redirect()->route('address.index')->withError('You are unathorized');
+        // }
+
+        // if(Gate::denies('update-address', $address)) {
+
+        //     return redirect()->route('address.index')->withError('You are unathorized');
+        // }
+
+        $this->authorize('update', $address);
+
+
         $request->validate([
             'state' => 'required',
             'mobile' => 'required',
@@ -123,6 +145,10 @@ class AddressController extends Controller
      */
     public function destroy(Address $address)
     {
+        if (Gate::denies('update-address', $address)) {
+            return redirect()->route('address.index')->withError('You are unathorized');
+        }
+
         $address->delete();
 
         return redirect()->route('address.index');

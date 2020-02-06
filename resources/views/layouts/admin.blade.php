@@ -48,6 +48,12 @@
 
     <div class="container-fluid">
 
+        @if (session('error'))
+        <div class="alert alert-danger text-center" role="alert">
+            {{session('error')}}
+        </div>
+        @endif
+
     <nav class="col-md-2 d-none d-md-block bg-light sidebar">
             <div class="sidebar-sticky">
                 <ul class="nav flex-column">
@@ -71,12 +77,14 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
-                <a class="nav-link" href="{{route('orders.index')}}">
-                    <span data-feather="users"></span>
-                    Orders
-                    </a>
-                </li>
+                 @can('isAdmin')
+                    <li class="nav-item">
+                    <a class="nav-link" href="{{route('orders.index')}}">
+                        <span data-feather="users"></span>
+                        Orders
+                        </a>
+                    </li>
+                @endcan
 
                 </ul>
 
