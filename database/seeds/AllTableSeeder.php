@@ -13,6 +13,9 @@ class AllTableSeeder extends Seeder
     {
         factory(App\User::class)->create(['email'=>'admin@ecom.com']);
 
+        factory(App\Category::class, 10)->create();
+
+
         factory(App\Product::class, 50)->create();
 
     }

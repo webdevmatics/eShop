@@ -14,6 +14,7 @@
                 <tr>
                     <th>Name</th>
                     <th>Price</th>
+                    <th>category</th>
                     {{-- <th>Description</th> --}}
                     <th>Image</th>
                     <th>Action</th>
@@ -25,6 +26,8 @@
                     <tr>
                         <td scope="row"> {{$product->name}} </td>
                         <td> {{$product->price}} </td>
+
+                        <td>{{ $product->category->name ?? 'not assigned' }}</td>
                         {{-- <td> {{$product->description}} </td> --}}
 
                         <td>

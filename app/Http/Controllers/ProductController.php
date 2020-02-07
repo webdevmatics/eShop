@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -21,10 +22,12 @@ class ProductController extends Controller
     public function index()
     {
         // $allProducts = Product::all();
-        $allProducts = Product::paginate(10);
+        // $allProducts = Product::paginate(10);
+
+        $productWithCategory = Product::where('category_id', '!=', '0')->paginate(10);
         // dd($allProducts);
 
-        return view('products.index', ['products'=> $allProducts]);
+        return view('products.index', ['products'=> $productWithCategory]);
     }
 
     /**
@@ -34,7 +37,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        $allCategories = Category::all();
+        return view('products.create',compact('allCategories'));
     }
 
     /**
@@ -46,11 +50,10 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         //add validation
-
         $request->validate([
             'name'=>'required',
             'price'=>'required',
-            'cover_img'=>'required|image'
+            // 'cover_img'=>'required|image'
         ]);
 
         //store in database
@@ -67,7 +70,11 @@ class ProductController extends Controller
                 $product->cover_img = $filePath;
             }
 
+            $product->category_id = $request->input('category_id');
+
             $product->save();
+
+
 
         //redirect to index page
 

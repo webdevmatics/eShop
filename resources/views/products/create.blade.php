@@ -14,6 +14,18 @@
         </div>
 
         <div class="form-group">
+          <label for="category_id">Category</label>
+          <select class="form-control" name="category_id" id="category_id">
+              <option value="">Select Item</option>
+            @foreach ($allCategories as $category)
+                <option value="{{ $category->id }}">{{ $category->name }}</option>
+            @endforeach
+
+          </select>
+        </div>
+
+
+        <div class="form-group">
             <label for="">Price</label>
             <input type="text" name="price" id="" class="form-control">
         </div>
@@ -22,6 +34,7 @@
           <label for="">Description</label>
           <textarea class="form-control" name="description" id="" rows="3"></textarea>
         </div>
+
 
         <div class="form-group">
           <label for="">Product cover image</label>
