@@ -17,9 +17,9 @@ class OrderController extends Controller
      */
     public function index()
     {
-        if(\Gate::denies('isAdmin')) {
-            dd('you are not admin');
-        }
+        // if(\Gate::denies('isAdmin')) {
+        //     dd('you are not admin');
+        // }
         // $orders = Order::get();
 
 
