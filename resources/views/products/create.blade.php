@@ -5,45 +5,14 @@
 <div class="container">
     <h1>Create Product</h1>
 
-    <form action="{{route('products.store')}}" method="POST" enctype="multipart/form-data">
-        @csrf
+    {!! Form::open(['route' => 'products.store','files'=>'true']) !!}
 
-        <div class="form-group">
-            <label for="">Product Title</label>
-            <input type="text" name="name" id="" class="form-control">
-        </div>
+        @include('products._form-inputs')
 
-        <div class="form-group">
-          <label for="category_id">Category</label>
-          <select class="form-control" name="category_id" id="category_id">
-              <option value="">Select Item</option>
-            @foreach ($allCategories as $category)
-                <option value="{{ $category->id }}">{{ $category->name }}</option>
-            @endforeach
-
-          </select>
-        </div>
+    {!! Form::close() !!}
 
 
-        <div class="form-group">
-            <label for="">Price</label>
-            <input type="text" name="price" id="" class="form-control">
-        </div>
 
-        <div class="form-group">
-          <label for="">Description</label>
-          <textarea class="form-control" name="description" id="" rows="3"></textarea>
-        </div>
-
-
-        <div class="form-group">
-          <label for="">Product cover image</label>
-          <input type="file" class="form-control-file" name="cover_img" id="" placeholder="" aria-describedby="fileHelpId">
-        </div>
-
-        <button type="submit" class="btn btn-primary">Submit</button>
-
-    </form>
 
 </div>
 

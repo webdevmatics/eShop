@@ -24,8 +24,8 @@ class ProductController extends Controller
         // $allProducts = Product::all();
         // $allProducts = Product::paginate(10);
 
-        $productWithCategory = Product::where('category_id', '!=', '0')->paginate(10);
-        // dd($allProducts);
+        // $productWithCategory = Product::orderBy('created_at','DESC')->paginate(10);
+        $productWithCategory = Product::latest()->paginate(10);
 
         return view('products.index', ['products'=> $productWithCategory]);
     }
@@ -37,7 +37,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $allCategories = Category::all();
+        $allCategories = Category::all()->pluck('name','id');
+
+
         return view('products.create',compact('allCategories'));
     }
 
@@ -49,6 +51,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+
+        // dd($request->all());
         //add validation
         $request->validate([
             'name'=>'required',
