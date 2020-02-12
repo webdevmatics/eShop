@@ -35,7 +35,26 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Categories
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="{{route('home')}}">All</a>
+                                @php
+                                 $allCategory=\App\Category::get();
+                                @endphp
+                                @foreach ($allCategory as $item)
+                            <a class="dropdown-item" href="{{route('home',['category_id'=>$item->id])}}">{{$item->name}}</a>
+                     {{-- second way --}}
+                            {{-- <a class="dropdown-item" href="{{route('home').'?category_id='.$item->id}}">{{$item->name}}</a> --}}
+                     {{-- third way --}}
+                            {{-- <a class="dropdown-item" href="{{url('/').'?category_id='.$item->id}}">{{$item->name}}</a> --}}
 
+                                @endforeach
+
+                            </div>
+                          </div>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

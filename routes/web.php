@@ -25,3 +25,11 @@ Route::view('order-completed','order-completed');
 Route::get('admin', function () {
     return view('admin.dashboard');
 })->name('admin')->middleware('auth');
+
+
+
+//unnecessary
+
+Route::get('pro', function () {
+    return view('partials.all');
+})->name('pro');
