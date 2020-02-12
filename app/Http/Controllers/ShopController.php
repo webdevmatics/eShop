@@ -24,7 +24,7 @@ class ShopController extends Controller
      */
     public function create()
     {
-        //
+        return view('shops.create');
     }
 
     /**
@@ -35,7 +35,13 @@ class ShopController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $shop= new Shop();
+        $shop->name=$request->input('name');
+        $shop->description=$request->input('description');
+        $shop->user_id=auth()->id();
+        $shop->save();
+        return redirect()->route('admin');
+
     }
 
     /**
