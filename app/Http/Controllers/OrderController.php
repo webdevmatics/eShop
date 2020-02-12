@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\OrderCreated;
 use App\Order;
 use App\OrderItem;
 use App\Mail\OrderCompleted;
@@ -106,10 +107,15 @@ class OrderController extends Controller
         //empty the cart
         session()->remove('cartItems');
 
+        event(new OrderCreated($order));
 
         //send mail to customer
 
-        Mail::to(auth()->user()->email)->send(new OrderCompleted);
+
+        //mail to admin
+
+        //seller
+
 
 
         // return redirect()->route('order.completed');

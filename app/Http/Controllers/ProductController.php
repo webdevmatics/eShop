@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Product;
 use App\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -21,11 +22,17 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $categoryId = request('category_id');//2
         // $allProducts = Product::all();
         // $allProducts = Product::paginate(10);
 
         // $productWithCategory = Product::orderBy('created_at','DESC')->paginate(10);
-        $productWithCategory = Product::latest()->paginate(10);
+
+        $productWithCategory = Cache::remember('product-data-sgarne'.$categoryId, 60, function () use($categoryId) {
+            return Product::where('category_id',$categoryId)->latest()->paginate(10);
+        });
+
+        // $productWithCategory = Product::latest()->paginate(10);
 
         return view('products.index', ['products'=> $productWithCategory]);
     }
@@ -79,6 +86,7 @@ class ProductController extends Controller
             $product->save();
 
 
+            //remove cache
 
         //redirect to index page
 
