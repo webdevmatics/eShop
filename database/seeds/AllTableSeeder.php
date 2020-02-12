@@ -12,11 +12,13 @@ class AllTableSeeder extends Seeder
     public function run()
     {
         factory(App\User::class)->create(['email'=>'admin@ecom.com']);
+        factory(App\Shop::class)->create(['name'=>'LNshop']);
+
 
         factory(App\Category::class, 10)->create();
 
 
-        factory(App\Product::class, 50)->create();
+        factory(App\Product::class, 20)->create();
 
     }
 }

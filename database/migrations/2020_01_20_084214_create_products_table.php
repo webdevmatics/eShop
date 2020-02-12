@@ -15,6 +15,9 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('shop_id');
+            $table->foreign('shop_id')->references('id')->on('shops')->onDelete('cascade');
+            $table->integer('stock')->default(1);
             $table->string('name');
             $table->string('description')->nullable();
             $table->float('price');
