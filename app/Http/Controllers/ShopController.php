@@ -35,11 +35,31 @@ class ShopController extends Controller
      */
     public function store(Request $request)
     {
+        //check if seller
+
+
+        //allow to create only one shop
+        $userId = auth()->id();
+
+        $existingShop = Shop::where('user_id', $userId)->count();
+        
+        if(!empty($existingShop)) {
+            return back()->withError("shop already exists");
+        }
+
         $shop= new Shop();
         $shop->name=$request->input('name');
         $shop->description=$request->input('description');
         $shop->user_id=auth()->id();
         $shop->save();
+
+        //make current user seller
+
+        $user = auth()->user();
+
+        $user->role = 'seller';
+        $user->save();
+
         return redirect()->route('admin');
 
     }

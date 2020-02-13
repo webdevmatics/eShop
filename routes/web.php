@@ -20,10 +20,12 @@ Route::resource('orders', 'OrderController')->middleware('auth');
 Route::resource('shops', 'ShopController')->middleware('auth');
 
 
-Route::view('order-completed','order-completed');
+Route::view('order-completed', 'order-completed');
 
 
 
 Route::get('admin', function () {
-    return view('admin.dashboard');
+    $shop = auth()->user()->shop;
+    return view('admin.dashboard', compact('shop'));
+
 })->name('admin')->middleware('auth');

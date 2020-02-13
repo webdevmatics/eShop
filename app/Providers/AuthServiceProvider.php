@@ -27,26 +27,41 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
 
-        Gate::define('update-address', function($user, $address){
+        Gate::define('update-address', function ($user, $address) {
 
-            if($user->id != $address->user_id) {
+            if ($user->id != $address->user_id) {
                 return false;
-            }else{
+            } else {
                 return true;
             }
 
         });
 
-        Gate::define('isAdmin', function($user){
-            if($user->id != 1) {
-                return false;
+        Gate::define('customer', function ($user) {
+            if ($user->role == 'customer') {
+                return true;
             }
 
-            return true;
+            return false;
 
         });
 
+        Gate::define('isAdmin', function ($user) {
+            if ($user->role == 'admin') {
+                return true;
+            }
 
+            return false;
+
+        });
+
+        Gate::define('seller', function ($user) {
+            if ($user->role == 'seller') {
+                return true;
+            }
+
+            return false;
+        });
 
 
     }
