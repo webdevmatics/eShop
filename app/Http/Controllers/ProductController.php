@@ -27,7 +27,7 @@ class ProductController extends Controller
         // $productWithCategory = Product::orderBy('created_at','DESC')->paginate(10);
         $productWithCategory = Product::latest()->paginate(10);
 
-        return view('products.index', ['products'=> $productWithCategory]);
+        return view('products.index', ['products' => $productWithCategory]);
     }
 
     /**
@@ -37,10 +37,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $allCategories = Category::all()->pluck('name','id');
+        $allCategories = Category::all()->pluck('name', 'id');
 
 
-        return view('products.create',compact('allCategories'));
+        return view('products.create', compact('allCategories'));
     }
 
     /**
@@ -52,31 +52,45 @@ class ProductController extends Controller
     public function store(Request $request)
     {
 
+
         // dd($request->all());
         //add validation
         $request->validate([
-            'name'=>'required',
-            'price'=>'required',
+            'name' => 'required',
+            'price' => 'required',
             // 'cover_img'=>'required|image'
         ]);
 
         //store in database
-            $product = new Product();
-            $product->name = $request->input('name');
-            $product->price = $request->input('price');
-            $product->description = $request->input('description');
+        $product = new Product();
+        $product->name = $request->input('name');
+        $product->price = $request->input('price');
+        $product->description = $request->input('description');
 
-            // check if file is present
-            if($request->has('cover_img')) {
-                //store file in disk
-                $filePath = $request->file('cover_img')->store('products');
-                //saving file in database
-                $product->cover_img = $filePath;
-            }
+        // check if file is present
+        if ($request->has('cover_img')) {
+            //store file in disk
+            $filePath = $request->file('cover_img')->store('products');
+            //saving file in database
+            $product->cover_img = $filePath;
+        }
 
-            $product->category_id = $request->input('category_id');
+        $product->category_id = $request->input('category_id');
 
+        $authUser = auth()->user();
+
+        if ($authUser->role == 'seller') {
+            $shopId = $authUser->shop->id;
+            $product->shop_id = $shopId;
             $product->save();
+
+            return redirect()->route('shops.show', $shopId);
+        }
+
+        $mainShop = Shop::where('name', 'ecom-shop')->first();
+        $product->shop_id = $mainShop->id;
+
+        $product->save();
 
 
 
@@ -95,7 +109,6 @@ class ProductController extends Controller
     {
 
         return view('products.show', compact('product'));
-
     }
 
     /**
@@ -106,7 +119,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('products.edit',compact('product'));
+        return view('products.edit', compact('product'));
     }
 
     /**
@@ -141,7 +154,6 @@ class ProductController extends Controller
             $filePath = $request->file('cover_img')->store('products');
             //saving file in database
             $product->cover_img = $filePath;
-
         }
 
 
@@ -165,7 +177,6 @@ class ProductController extends Controller
         Storage::delete($product->cover_img); // delete old files
 
         return redirect()->route('products.index');
-
     }
 
     public function addToCart($productId)
@@ -175,27 +186,26 @@ class ProductController extends Controller
         $allCartItems = [];
 
         $newItemToAdd =  [
-                    'name' => $product->name,
-                    'price' => $product->price,
-                    'qty' => '1'
+            'name' => $product->name,
+            'price' => $product->price,
+            'qty' => '1'
         ];
 
-        if(session()->has('cartItems')) {
+        if (session()->has('cartItems')) {
             $allCartItems = session()->get('cartItems');
         }
 
         //product already in cart
         if (isset($allCartItems[$productId])) {
-            $allCartItems[$productId]['qty'] = $allCartItems[$productId]['qty'] + 1 ;
+            $allCartItems[$productId]['qty'] = $allCartItems[$productId]['qty'] + 1;
             $allCartItems[$productId]['price'] = $product->price * $allCartItems[$productId]['qty'];
-        }else {
+        } else {
             $allCartItems[$productId] =  $newItemToAdd;
         }
 
         session()->put('cartItems', $allCartItems);
 
         return back()->withMessage("Item has been added to cart");
-
     }
 
     public function reduceQuantity($productId)
@@ -215,7 +225,7 @@ class ProductController extends Controller
 
         $qty = $allCartItems[$productId]['qty'];
 
-        if($qty > 1) {
+        if ($qty > 1) {
             $allCartItems[$productId]['qty']--;
             $allCartItems[$productId]['price'] = $product->price * $allCartItems[$productId]['qty'];
         }
@@ -223,7 +233,6 @@ class ProductController extends Controller
         session()->put('cartItems', $allCartItems);
 
         return back()->withMessage("Item has been removed from cart");
-
     }
 
     public function viewCart()
@@ -244,7 +253,7 @@ class ProductController extends Controller
     {
         $existingCartItems = session('cartItems');
 
-        if(isset($existingCartItems[$productId])) {
+        if (isset($existingCartItems[$productId])) {
 
             //delete that
             unset($existingCartItems[$productId]);

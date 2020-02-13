@@ -5,7 +5,8 @@ Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
 
 
-Route::resource('products', 'ProductController')->middleware('auth');
+Route::resource('products', 'ProductController')->middleware('can:seller,admin');
+
 Route::resource('address', 'AddressController')->middleware('auth');
 
 Route::get('add-to-cart/{product}', 'ProductController@addToCart')->name('cart');
@@ -26,6 +27,7 @@ Route::view('order-completed', 'order-completed');
 
 Route::get('admin', function () {
     $shop = auth()->user()->shop;
+
     return view('admin.dashboard', compact('shop'));
 
 })->name('admin')->middleware('auth');

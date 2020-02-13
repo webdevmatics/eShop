@@ -42,7 +42,7 @@ class ShopController extends Controller
         $userId = auth()->id();
 
         $existingShop = Shop::where('user_id', $userId)->count();
-        
+
         if(!empty($existingShop)) {
             return back()->withError("shop already exists");
         }
@@ -72,7 +72,7 @@ class ShopController extends Controller
      */
     public function show(Shop $shop)
     {
-        //
+        return view('shops.show',compact('shop'));
     }
 
     /**
