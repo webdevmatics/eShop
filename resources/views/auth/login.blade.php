@@ -66,6 +66,20 @@
                         </div>
                     </form>
                 </div>
+
+                <div class="row ">
+                    <div class="col">
+                        <a class="btn btn-primary" href="{{ route('social-login.redirect','github') }}">Login with github</a>
+                    </div>
+
+                    <div class="col">
+                        <a class="btn btn-info" href="{{ route('social-login.redirect','facebook') }}">Login with facebok</a>
+                    </div>
+
+                    <div class="col">
+                        <a class="btn btn-danger" href="{{ route('social-login.redirect','google') }}">Login with google</a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

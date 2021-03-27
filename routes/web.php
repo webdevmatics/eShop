@@ -2,10 +2,14 @@
 
 Auth::routes();
 
+Route::get('users/{id}', function ($id) {
+    dd($id);
+});
+
 Route::get('/', 'HomeController@index')->name('home');
 
 
-Route::resource('products', 'ProductController')->middleware('can:seller,admin');
+Route::resource('products', 'ProductController')->middleware('auth');
 
 Route::resource('address', 'AddressController')->middleware('auth');
 
@@ -24,10 +28,14 @@ Route::resource('shops', 'ShopController')->middleware('auth');
 Route::view('order-completed', 'order-completed');
 
 
-
 Route::get('admin', function () {
     $shop = auth()->user()->shop;
 
     return view('admin.dashboard', compact('shop'));
 
 })->name('admin')->middleware('auth');
+
+
+Route::get('social-login/{provider}', 'Auth\LoginController@redirectToProvider')->name('social-login.redirect');
+
+Route::get('social-login/{provider}/callback', 'Auth\LoginController@handleProviderCallback')->name('social-login.callback');

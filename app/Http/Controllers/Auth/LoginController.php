@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\User;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -37,4 +39,37 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    public function redirectToProvider($provider)
+    {
+        return Socialite::driver($provider)->redirect();
+    }
+
+    public function handleProviderCallback($provider)
+    {
+        $user = Socialite::driver($provider)->user();
+
+
+        $existingUser = User::where('email', $user->getEmail())->first();
+        // $existingUser = User::whereEmail($user->getEmail())->first();
+
+        if ($existingUser) {
+            auth()->login($existingUser);
+            return redirect($this->redirectPath());
+        }
+
+        $name = $user->getName() ?? $user->getNickname();
+
+        $newUser = User::create([
+            'name' => $name,
+            'email' => $user->getEmail(),
+            'password' => bcrypt('ksjllsk89239ksdjkh23')
+        ]);
+
+        auth()->login($newUser);
+        return redirect($this->redirectPath());
+    }
+
+
+
 }
